@@ -45,11 +45,11 @@ public class UserServiceImplTest {
 		signUpRequestDto = new SignUpRequestDto();
 
 		signUpRequestDto.setUserName("JR9281");
-		signUpRequestDto.setFirstName("Janaki Rao");
-		signUpRequestDto.setLastName("Gokavalsa");
-		signUpRequestDto.setMobile("9550777402");
+		signUpRequestDto.setFirstName("Arun Kumar");
+		signUpRequestDto.setLastName("Karthikeya");
+		signUpRequestDto.setMobile("1234567890");
 		signUpRequestDto.setEmail("jr@gmail.com");
-		signUpRequestDto.setPanCard("BJEPG7486G");
+		signUpRequestDto.setPanCard("XBSXJ7486G");
 		signUpRequestDto.setAadharCard("3675 9834 6012");
 		signUpRequestDto.setAddress("Hyderabad");
 
@@ -61,11 +61,11 @@ public class UserServiceImplTest {
 		user = new User();
 		user.setUserId(1);
 		user.setUserName("JR9281");
-		user.setFirstName("Janaki Rao");
-		user.setLastName("Gokavalsa");
-		user.setMobile("9550777402");
+		user.setFirstName("Arun Kumar");
+		user.setLastName("Karthikeya");
+		user.setMobile("1234567890");
 		user.setEmail("jr@gmail.com");
-		user.setPanCard("BJEPG7486G");
+		user.setPanCard("XBSXJ7486G");
 		user.setAadharCard("3675 9834 6012");
 		user.setPassword("jr0721");
 		user.setAddress("Hyderabad");
@@ -74,7 +74,7 @@ public class UserServiceImplTest {
 	}
 
 	@Test
-	@DisplayName("Register UserDetails")
+	@DisplayName("Register : postive scenario")
 	public void registerUserTest() {
 
 		when(userMapper.map(signUpRequestDto)).thenReturn(user);
@@ -89,7 +89,7 @@ public class UserServiceImplTest {
 		LoginResponseDto actual = userServiceImpl.registerUser(signUpRequestDto);
 		assertEquals("JR9281", actual.getUserName());
 	}
-
+	
 	@Test
 	@DisplayName("authentication : positive scenario")
 	public void authenticateUserTestPostive() {

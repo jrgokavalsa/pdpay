@@ -46,11 +46,11 @@ class PbpayApplicationTests {
 		
 		user.setUserId(1);
 		user.setUserName("JR9281");
-		user.setFirstName("Janaki Rao");
-		user.setLastName("Gokavalsa");
-		user.setMobile("9550777402");
+		user.setFirstName("Arun Kumar");
+		user.setLastName("Karthikeya");
+		user.setMobile("1234567890");
 		user.setEmail("jr@gmail.com");
-		user.setPanCard("BJEPG7486G");
+		user.setPanCard("XBSXJ7486G");
 		user.setAadharCard("3675 9834 6012");
 		user.setPassword("jr0721");
 		user.setAddress("Hyderabad");
@@ -58,9 +58,9 @@ class PbpayApplicationTests {
 		user.setEnabled(true);
 		
 		request.setUserName("JR9281");
-		request.setFirstName("Janaki Rao");
-		request.setLastName("Gokavalsa");
-		request.setMobile("9550777402");
+		request.setFirstName("Arun Kumar");
+		request.setLastName("Karthikeya");
+		request.setMobile("1234567890");
 		request.setEmail("jr@gmail.com");
 		request.setPanCard("BJEPG7486G");
 		request.setAadharCard("3675 9834 6012");

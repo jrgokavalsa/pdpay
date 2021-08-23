@@ -26,11 +26,11 @@ public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transactionId")
 	private Long transactionId;
-	@ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name = "source_account_number")	
 	private Account sourceAccountNumber;
-	@ManyToOne
-	@JoinColumn(referencedColumnName = "beneficiaryAccountNo")
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinColumn(name = "beneficiaryAccountNumber", referencedColumnName = "beneficiaryAccountNo")
 	private Beneficiary beneficiaryAccountNumber;
 	private Double transactionAmount;
 	private Double availableBalance;

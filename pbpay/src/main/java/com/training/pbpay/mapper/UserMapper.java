@@ -15,6 +15,7 @@ public interface UserMapper {
 	@Mapping(target = "password", expression = "java(passwordGenerator())")
 	@Mapping(target = "created", expression = "java(java.time.Instant.now())")
 	@Mapping(target = "enabled", ignore = true)
+	@Mapping(target="account",ignore = true)
 	User map(SignUpRequestDto signUpRequestDto);
 	
 	LoginResponseDto mapToDto(User user);

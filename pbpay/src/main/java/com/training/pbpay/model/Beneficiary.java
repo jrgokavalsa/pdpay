@@ -1,5 +1,6 @@
 package com.training.pbpay.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -47,7 +48,7 @@ public class Beneficiary {
 	@Pattern(regexp = "[a-zA-Z0-9]+", message = "{beneficiary.ifsc.invalid}")
 	private String ifsCode;
 	
-	@ManyToOne(fetch=FetchType.LAZY, optional = false)
+	@ManyToOne(fetch=FetchType.LAZY, optional = false,cascade = CascadeType.ALL)
 	@JoinColumn(name = "accountNumber")
 	private Account account;
 }

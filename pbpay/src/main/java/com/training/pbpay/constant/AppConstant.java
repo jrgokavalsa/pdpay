@@ -17,9 +17,8 @@ public class AppConstant {
 
 	public static final String CREDIT = "CREDIT";
 	public static final String DEBIT = "DEBIT";
-	public static final Double MINIMUM_BALANCE = 1000D;
 
-	public static final String TRANSACTION_STATUS_SUCCESS = "SUCCESS";
+	public static final String TRANSACTION_STATUS_SUCCESS = "Transaction Successfully Completed";
 
 	public static final Integer AUTHENTICATION_SUCCESSFUL_CODE = HttpStatus.OK.value();
 	public static final String ACCOUNT_NOT_FOUND = "Account not found";

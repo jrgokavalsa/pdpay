@@ -30,8 +30,8 @@ public class UserServiceImpl implements UserService {
 			throw new UserAlreadyExistException(AppConstant.USER_ALREADY_EXIST + value.getUserName());
 		});
 		User user = userMapper.map(signUpRequestDto);
-		LoginResponseDto loginResponse = userMapper.mapToDto(user);
-		userRepository.save(user);
+		User userPerst = userRepository.save(user);
+		LoginResponseDto loginResponse = userMapper.mapToDto(userPerst);
 		return loginResponse;
 	}
 

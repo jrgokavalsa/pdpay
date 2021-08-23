@@ -89,9 +89,14 @@ public class AccountServiceImpl implements AccountService {
 		if(transactionRequestDto.getTransactionAmount()>account.getBalance())
 			throw new InsufficientBalanceException("Insufficient Balance");
 		
-		Transaction transaction=transactionMapper.map(transactionRequestDto, beneficiaryAccount, account);
+		Transaction debitTransaction=transactionMapper.mapToDebit(transactionRequestDto, beneficiaryAccount, account);
+		transactionRepository.save(debitTransaction);
 		
-		transactionRepository.save(transaction);
+		Transaction creditTransaction=transactionMapper.mapToCredit(transactionRequestDto, account, beneficiaryAccount);
+		transactionRepository.save(creditTransaction);
+		
+		account.setBalance(account.getBalance()-transactionRequestDto.getTransactionAmount());
+		accountRepository.save(account);
 		
 		return AppConstant.SUCCESS_MESSAGE;
 	}

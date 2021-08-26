@@ -22,7 +22,7 @@ public class AppConstant {
 
 	public static final Integer AUTHENTICATION_SUCCESSFUL_CODE = HttpStatus.OK.value();
 	public static final String ACCOUNT_NOT_FOUND = "Account not found";
-	public static final String ACCOUNT_REGISTER_SUCCESS = "Account Registered Successfully";
+	public static final String ACCOUNT_REGISTER_SUCCESS = "Account Registered Successfully ";
 	public static final String ACCOUNT_BENEFICIARY_SUCCESS = "Beneficiary Registered Successfully";
 	public static final String BENEFICIARY_NOT_FOUND = "Beneficiary Account Not Found";
 	public static final String BENEFICIARY_ALREADY_EXIST = "Beneficiary Already Exist with AccountNo: ";

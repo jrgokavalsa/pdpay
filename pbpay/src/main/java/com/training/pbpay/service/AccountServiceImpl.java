@@ -49,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
 		User user = userRepository.findById(accountRegisterDto.getUserId())
 				.orElseThrow(() -> new UserNotFoundException(AppConstant.USER_NOT_FOUND));
 		Long accountNo = accountRepository.save(accountMapper.map(accountRegisterDto, user)).getAccountNumber();
-		return AppConstant.ACCOUNT_REGISTER_SUCCESS + accountNo;
+		return AppConstant.ACCOUNT_REGISTER_SUCCESS +accountNo;
 	}
 
 	@Override
@@ -59,6 +59,7 @@ public class AccountServiceImpl implements AccountService {
 				.orElseThrow(() -> new AccountNotFoundException(AppConstant.ACCOUNT_NOT_FOUND));
 		Optional<Beneficiary> beneficiary = beneficiaryRepository.findByBeneficiaryAccountNoAndAccountAccountNumber(
 				beneficiaryRegisterDto.getBeneficiaryAccountNo(), account.getAccountNumber());
+		
 		if (beneficiary.isPresent())
 			throw new BeneficiaryAlreadyExistException(
 					AppConstant.BENEFICIARY_ALREADY_EXIST + beneficiaryRegisterDto.getBeneficiaryAccountNo());

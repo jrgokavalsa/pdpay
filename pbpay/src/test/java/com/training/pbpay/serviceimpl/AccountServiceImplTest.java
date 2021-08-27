@@ -150,5 +150,9 @@ public class AccountServiceImplTest {
 		Assertions.assertThrows(BeneficiaryAlreadyExistException.class,
 				() -> accountServiceImpl.registerBeneficiary(beneficiaryRegisterDto));
 	}
+	
+	
+	
+	
 
 }

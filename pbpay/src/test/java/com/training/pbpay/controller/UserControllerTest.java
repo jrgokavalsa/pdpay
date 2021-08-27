@@ -1,4 +1,4 @@
-package com.training.pbpay;
+package com.training.pbpay.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -9,10 +9,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -23,9 +24,9 @@ import com.training.pbpay.exceptions.UserNotFoundException;
 import com.training.pbpay.model.User;
 import com.training.pbpay.service.UserService;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 @TestInstance(Lifecycle.PER_CLASS)
-class PbpayApplicationTests {
+public class UserControllerTest {
 	
 
 	@InjectMocks

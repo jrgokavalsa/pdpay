@@ -14,6 +14,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -36,6 +37,7 @@ public class Beneficiary {
 
 	@NotNull(message = "{beneficiary.account.not.null}")
 	@Digits(integer = 9, fraction = 0, message = "{beneficiary.account.invalid}")
+	@Positive(message = "{beneficiary.account.invalid}")
 	private long beneficiaryAccountNo;
 
 	@NotNull(message = "{beneficiary.limit.not.null}")

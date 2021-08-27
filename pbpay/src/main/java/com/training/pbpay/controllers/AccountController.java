@@ -28,13 +28,13 @@ public class AccountController {
 	@PostMapping("/")
 	public ResponseEntity<String> registerAccount(@Valid @RequestBody AccountRegisterDto accountRegisterDto){
 		log.info("Entering into AccountController register account method" );
-		return ResponseEntity.status(HttpStatus.OK).body(accountService.registerAccount(accountRegisterDto));
+		return ResponseEntity.status(HttpStatus.CREATED).body(accountService.registerAccount(accountRegisterDto));
 	}
 	
 	@PostMapping("/beneficiaries")
 	public ResponseEntity<String> registerBeneficiary(@Valid @RequestBody BeneficiaryRegisterDto beneficiaryRegisterDto){
 		log.info("Entering into AccountController register account method" );
-		return ResponseEntity.status(HttpStatus.OK).body(accountService.registerBeneficiary(beneficiaryRegisterDto));
+		return ResponseEntity.status(HttpStatus.CREATED).body(accountService.registerBeneficiary(beneficiaryRegisterDto));
 	}
 	@PostMapping("/transactions")
 	public ResponseEntity<String> transferCurrency(@Valid @RequestBody TransactionRequestDto transactionRequestDto){

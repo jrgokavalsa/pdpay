@@ -37,7 +37,7 @@ public class Account {
 	private String branchName;
 	
 	@DecimalMin(value = "3000.00", message = "{account.balance.min}")
-	@DecimalMax(value ="100000.00",message = "{account.balance.max}")
+	@DecimalMax(value ="1000000.00",message = "{account.balance.max}")
 	private Double balance;
 	
 	@NotEmpty(message = "{account.ifsc.not.empty}")

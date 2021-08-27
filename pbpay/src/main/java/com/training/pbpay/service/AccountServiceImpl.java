@@ -72,7 +72,7 @@ public class AccountServiceImpl implements AccountService {
 	public String transferCurrency(TransactionRequestDto transactionRequestDto)
 			throws UserNotFoundException, AccountNotFoundException {
 		
-		log.info("Entering into transferCurrency() of AccountServiceImpl");
+		log.info("Entering into transferCurrency of AccountServiceImpl");
 		
 		userRepository.findById(transactionRequestDto.getUserId())
 				.orElseThrow(() -> new UserNotFoundException(AppConstant.USER_NOT_FOUND));

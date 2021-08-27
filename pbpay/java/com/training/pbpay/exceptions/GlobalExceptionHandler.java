@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +47,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ErrorResponse>(errors, HttpStatus.CONFLICT);
 
 	}
-	
+
 	@ExceptionHandler(UserNotFoundException.class)
 	public final ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex,
 			WebRequest request) {
@@ -57,7 +59,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ErrorResponse>(errors, HttpStatus.BAD_REQUEST);
 
 	}
-	
+
 	@ExceptionHandler(AccountNotFoundException.class)
 	public final ResponseEntity<ErrorResponse> handleAccountNotFoundException(AccountNotFoundException ex,
 			WebRequest request) {
@@ -69,10 +71,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ErrorResponse>(errors, HttpStatus.BAD_REQUEST);
 
 	}
-	
+
 	@ExceptionHandler(BeneficiaryAlreadyExistException.class)
-	public final ResponseEntity<ErrorResponse> handleBeneficiaryAlreadyExistException(BeneficiaryAlreadyExistException ex,
-			WebRequest request) {
+	public final ResponseEntity<ErrorResponse> handleBeneficiaryAlreadyExistException(
+			BeneficiaryAlreadyExistException ex, WebRequest request) {
 		List<String> details = new ArrayList<>();
 		details.add(ex.getLocalizedMessage());
 		ErrorResponse errors = new ErrorResponse(LocalDateTime.now(), HttpStatus.CONFLICT.value(),
@@ -81,4 +83,48 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ErrorResponse>(errors, HttpStatus.CONFLICT);
 
 	}
+
+	@ExceptionHandler(InsufficientBalanceException.class)
+	public final ResponseEntity<ErrorResponse> handleInsufficientBalanceException(InsufficientBalanceException ex,
+			WebRequest request) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getLocalizedMessage());
+		ErrorResponse errors = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
+				AppConstant.INSUFFICIENT_BALANCE, details);
+		log.error(errors.toString());
+		return new ResponseEntity<ErrorResponse>(errors, HttpStatus.BAD_REQUEST);
+
+	}
+
+	@ExceptionHandler(TransactionLimitExceedsException.class)
+	public final ResponseEntity<ErrorResponse> handleInsufficientBalanceException(TransactionLimitExceedsException ex,
+			WebRequest request) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getLocalizedMessage());
+		ErrorResponse errors = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
+				AppConstant.TRANSACTIONS_LIMIT_EXCEEDS, details);
+		log.error(errors.toString());
+		return new ResponseEntity<ErrorResponse>(errors, HttpStatus.BAD_REQUEST);
+
+	}
+
+	@ExceptionHandler(ConstraintViolationException.class)
+	public final ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex,
+			WebRequest request) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getLocalizedMessage());
+		ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
+				AppConstant.VALIDATION_FAILED, details);
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(Exception.class)
+	public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+		List<String> details = new ArrayList<>();
+		details.add(ex.getLocalizedMessage());
+		ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
+				AppConstant.INTERNAL_SERVER_ERROR, details);
+		return new ResponseEntity<Object>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
 }

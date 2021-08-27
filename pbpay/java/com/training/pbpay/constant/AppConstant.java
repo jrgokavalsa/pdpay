@@ -26,5 +26,9 @@ public class AppConstant {
 	public static final String ACCOUNT_BENEFICIARY_SUCCESS = "Beneficiary Registered Successfully";
 	public static final String BENEFICIARY_NOT_FOUND = "Beneficiary Account Not Found";
 	public static final String BENEFICIARY_ALREADY_EXIST = "Beneficiary Already Exist with AccountNo: ";
+	public static final String INSUFFICIENT_BALANCE = "Insufficient Balance";
+	public static final String TRANSACTIONS_LIMIT_EXCEEDS = "Transaction limit exceeds for beneficiary";
+	public static final String VALIDATION_FAILED="Validation Failed Please Check and try again";
+	public static final String INTERNAL_SERVER_ERROR = "Internal Server Error";
 	
 }

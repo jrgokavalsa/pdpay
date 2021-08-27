@@ -92,10 +92,7 @@ public class AccountServiceImpl implements AccountService {
 		
 		Transaction debitTransaction=transactionMapper.mapToDebit(transactionRequestDto, beneficiaryAccount, account);
 		transactionRepository.save(debitTransaction);
-		
-		Transaction creditTransaction=transactionMapper.mapToCredit(transactionRequestDto, account, beneficiaryAccount);
-		transactionRepository.save(creditTransaction);
-		
+
 		account.setBalance(account.getBalance()-transactionRequestDto.getTransactionAmount());
 		accountRepository.save(account);
 		

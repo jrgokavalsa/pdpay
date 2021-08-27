@@ -17,7 +17,6 @@ public interface TransactionMapper {
 	@Mapping(target = "transactionId", ignore = true)
 	@Mapping(target = "transactionType", expression = "java(com.training.pbpay.constant.AppConstant.DEBIT)")
 	@Mapping(target = "sourceAccountNumber", source = "beneficiaryAccount.account")
-	@Mapping(target = "availableBalance", expression = "java(sourceAccount.getBalance()-transactionRequestDto.getTransactionAmount())")
 	Transaction mapToDebit(TransactionRequestDto transactionRequestDto, Beneficiary beneficiaryAccount,
 			Account sourceAccount);
 
@@ -27,7 +26,6 @@ public interface TransactionMapper {
 	@Mapping(target = "transactionId", ignore = true)
 	@Mapping(target = "transactionType", expression = "java(com.training.pbpay.constant.AppConstant.CREDIT)")
 	@Mapping(target = "sourceAccountNumber", source = "beneficiaryAccount.account")
-	@Mapping(target = "availableBalance", expression = "java(sourceAccount.getBalance()-transactionRequestDto.getTransactionAmount())")
 	Transaction mapToCredit(TransactionRequestDto transactionRequestDto, 
 			Account sourceAccount,Beneficiary beneficiaryAccount);
 }

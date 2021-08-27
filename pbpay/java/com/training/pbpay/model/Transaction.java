@@ -33,7 +33,6 @@ public class Transaction {
 	@JoinColumn(name = "beneficiaryAccountNumber", referencedColumnName = "beneficiaryAccountNo")
 	private Beneficiary beneficiaryAccountNumber;
 	private Double transactionAmount;
-	private Double availableBalance;
 	private String transactionType;
 	private LocalDateTime transactionDate;
 	private String status;

@@ -1,11 +1,13 @@
 package com.training.pbpay.serviceimpl;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,15 +17,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.training.pbpay.dto.AccountRegisterDto;
 import com.training.pbpay.dto.BeneficiaryRegisterDto;
+import com.training.pbpay.dto.TransactionRequestDto;
 import com.training.pbpay.exceptions.BeneficiaryAlreadyExistException;
 import com.training.pbpay.exceptions.UserNotFoundException;
 import com.training.pbpay.mapper.AccountMapper;
 import com.training.pbpay.mapper.BeneficiaryMapper;
+import com.training.pbpay.mapper.TransactionMapper;
 import com.training.pbpay.model.Account;
 import com.training.pbpay.model.Beneficiary;
+import com.training.pbpay.model.Transaction;
 import com.training.pbpay.model.User;
 import com.training.pbpay.repository.AccountRepository;
 import com.training.pbpay.repository.BeneficiaryRepository;
+import com.training.pbpay.repository.TransactionRepository;
 import com.training.pbpay.repository.UserRepository;
 import com.training.pbpay.service.AccountServiceImpl;
 
@@ -43,16 +49,24 @@ public class AccountServiceImplTest {
 	BeneficiaryRepository beneficiaryRepository;
 
 	@Mock
+	TransactionRepository transactionRepository;
+
+	@Mock
 	AccountMapper accountMapper;
 
 	@Mock
 	BeneficiaryMapper beneficiaryMapper;
+
+	@Mock
+	TransactionMapper transactionMapper;
 
 	static AccountRegisterDto accountRegisterDto;
 	static User user;
 	static Account account;
 	static Beneficiary beneficiary;
 	static BeneficiaryRegisterDto beneficiaryRegisterDto;
+	static TransactionRequestDto transactionRequestDto;
+	static Transaction transaction;
 
 	@BeforeAll
 	public static void setup() {
@@ -80,7 +94,7 @@ public class AccountServiceImplTest {
 
 		account = new Account();
 		account.setAccountNumber(50000001L);
-		account.setBalance(30000d);
+		account.setBalance(80000d);
 		account.setBankName("HDFC Bank");
 		account.setBranchName("Hyderabad");
 		account.setIfsCode("HDFC0000109");
@@ -100,10 +114,27 @@ public class AccountServiceImplTest {
 		beneficiary.setBeneficiaryName("Sudharshan Reddy");
 		beneficiary.setIfsCode("SBIN0125620");
 		beneficiary.setTransferLimit(50000d);
+
+		transactionRequestDto = new TransactionRequestDto();
+		transactionRequestDto.setUserId(1);
+		transactionRequestDto.setAccountNumber(50000001L);
+		transactionRequestDto.setBeneficiaryAccountNumber(58964562L);
+		transactionRequestDto.setTransactionAmount(20000d);
+
+		transaction = new Transaction();
+		transaction.setTransactionId(10001l);
+		transaction.setBeneficiaryAccountNumber(beneficiary);
+		transaction.setSourceAccountNumber(account);
+		transaction.setStatus("Completed");
+		transaction.setTransactionAmount(20000d);
+		transaction.setTransactionDate(LocalDateTime.now());
+		transaction.setTransactionType("DEBIT");
+
 	}
 
 	@Test
 	@DisplayName("Account Registration : Positive Scenario")
+	@Order(1)
 	public void registerAccountTest() {
 		Mockito.when(userRepository.findById(1)).thenReturn(Optional.of(user));
 		Mockito.when(accountMapper.map(accountRegisterDto, user)).thenReturn(account);
@@ -119,6 +150,7 @@ public class AccountServiceImplTest {
 
 	@Test
 	@DisplayName("Account Registration : Negative Scenario")
+	@Order(2)
 	public void registerAccountTestNegative() {
 		Mockito.when(userRepository.findById(1)).thenThrow(UserNotFoundException.class);
 		org.junit.jupiter.api.Assertions.assertThrows(UserNotFoundException.class,
@@ -127,6 +159,7 @@ public class AccountServiceImplTest {
 
 	@Test
 	@DisplayName("Beneficiary Registration : Positive Scenario")
+	@Order(3)
 	public void registerBeneficiaryTestPositive() {
 		Mockito.when(accountRepository.findById(50000001L)).thenReturn(Optional.of(account));
 		Mockito.when(beneficiaryRepository.findByBeneficiaryAccountNoAndAccountAccountNumber(58964562L, 50000001L))
@@ -143,6 +176,7 @@ public class AccountServiceImplTest {
 
 	@Test
 	@DisplayName("Beneficiary Registration : Negative Scenario")
+	@Order(4)
 	public void registerBeneficiaryTestNegative() {
 		Mockito.when(accountRepository.findById(50000001L)).thenReturn(Optional.of(account));
 		Mockito.when(beneficiaryRepository.findByBeneficiaryAccountNoAndAccountAccountNumber(58964562L, 50000001L))
@@ -150,9 +184,29 @@ public class AccountServiceImplTest {
 		Assertions.assertThrows(BeneficiaryAlreadyExistException.class,
 				() -> accountServiceImpl.registerBeneficiary(beneficiaryRegisterDto));
 	}
-	
-	
-	
-	
+
+	@Test
+	@DisplayName("Currency Transaction : Positive Scenario")
+	@Order(5)
+	public void transferCurrencyTestPositive() {
+		Mockito.when(userRepository.findById(1)).thenReturn(Optional.of(user));
+		Mockito.when(accountRepository.findById(50000001L)).thenReturn(Optional.of(account));
+		Mockito.when(beneficiaryRepository.findByBeneficiaryAccountNoAndAccountAccountNumber(58964562L, 50000001L))
+				.thenReturn(Optional.of(beneficiary));
+		Mockito.when(transactionMapper.mapToDebit(transactionRequestDto, beneficiary, account)).thenReturn(transaction);
+		Mockito.when(transactionRepository.save(Mockito.any(Transaction.class))).then(i -> {
+			Transaction debit = i.getArgument(0);
+			debit.setTransactionId(10001l);
+			return debit;
+		});
+		Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenAnswer(i -> {
+			Account account = i.getArgument(0);
+			account.setBalance(60000d);
+			return account;
+		});
+		String actual = accountServiceImpl.transferCurrency(transactionRequestDto);
+		Assertions.assertEquals("SUCCESS", actual);
+
+	}
 
 }
